@@ -18,13 +18,13 @@ class Solution
             string LAT = Console.ReadLine();
             double Latitude = Convert.ToDouble(LAT.Replace(',', '.'));
             int N = int.Parse(Console.ReadLine());
-            string closestDefib = String.Empty;
-            double closestDistance =  double.MaxValue;
+            string closestDefib = "";
+            double closestDistance =  0;
             for (int i = 0; i < N; i++)
             {
                 string DEFIB = Console.ReadLine();
-                string address;
-                double distance = closestAddress(Longitude, Latitude, DEFIB, out address);
+                string address = getAddress(DEFIB);
+                double distance = getDistance(Longitude, Latitude, DEFIB);
                 if (i == 0)
                 {
                     closestDistance = distance;
@@ -43,21 +43,27 @@ class Solution
 
             Console.WriteLine("{0}", closestDefib);
         }
-
-        public static double closestAddress(double ULongitude, double ULatitude, string s, out string address)
+        
+        public static string getAddress(string s)
         {
-            string[] splitAddressandCoords = s.Split(';');
-            address = splitAddressandCoords[1];
-            double ALongitude = Convert.ToDouble(splitAddressandCoords[splitAddressandCoords.Length - 2].Replace(',', '.'));
-            double ALatitude = Convert.ToDouble(splitAddressandCoords[splitAddressandCoords.Length - 1].Replace(',', '.'));
-            double distance = findDistance(ULongitude, ULatitude, ALongitude, ALatitude);
+            string[] splitCodes = s.Split(';');
+            string address = splitCodes[1];
+            return address;
+        }
+
+        public static double getDistance(double ALongitude, double ALatitude, string s)
+        {
+            string[] splitCodes = s.Split(';');
+            double BLongitude = Convert.ToDouble(splitCodes[splitCodes.Length - 2].Replace(',', '.'));
+            double BLatitude = Convert.ToDouble(splitCodes[splitCodes.Length - 1].Replace(',', '.'));
+            double distance = calcDistance(ALongitude, ALatitude, BLongitude, BLatitude);
             return distance;
         }
 
-        private static double findDistance(double Ulong, double Ulat, double ALong, double ALat)
+        public static double calcDistance(double ALongitude, double ALatitude, double BLongitude, double BLatitude)
         {
-            double x = (ALong - Ulong) * Math.Cos((Ulat + ALat) / 2);
-            double y = (ALat - Ulat);
+            double x = (BLongitude - ALongitude) * Math.Cos((ALatitude + BLatitude) / 2);
+            double y = (BLatitude - ALatitude);
             double d = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)) * 6371;
             return d;
         }

@@ -17,41 +17,38 @@ class Solution
         int Q = int.Parse(Console.ReadLine()); // Number Q of file names to be analyzed.
         //This will use the file Ext as the Key and the MIME type as the value.
         Dictionary <string, string> fileExtention = new Dictionary<string, string>();
-        List<string> fileName = new List<string>();
+        List<string> inputExtentions = new List<string>();
         for (int i = 0; i < N; i++)
         {
             string[] inputs = Console.ReadLine().Split(' ');
-            string EXT = inputs[0].ToLower(); // file extension
-            string MT = inputs[1]; // MIME type.
-            fileExtention.Add(EXT, MT);
+            string Extention = inputs[0].ToLower();
+            string MIMEType = inputs[1];
+            fileExtention.Add(Extention, MIMEType);
         }
         for (int i = 0; i < Q; i++)
         {
-            string FNAME = Console.ReadLine();// One file name per line.
+            string FNAME = Console.ReadLine(); // One file name per line.
             FNAME = FNAME.ToLower();
+            string extention = "Nothing";
+            
             if(FNAME.Contains('.'))
             {
-                    FNAME = FNAME.Substring(FNAME.LastIndexOf('.')+1);
-            }
-            else
-            {
-                FNAME = "N/A";
+                extention = FNAME.Substring(FNAME.LastIndexOf('.')+1);
             }
             
-            fileName.Add(FNAME);
+            inputExtentions.Add(extention);
         }
              
-        foreach(string extention in fileName)
+        foreach(string extention in inputExtentions)
         {
-            if(extention == "N/A")
+            if(extention == "Nothing")
             {
                 Console.WriteLine("UNKNOWN");
             }
             else if(fileExtention.ContainsKey(extention))
             {
-                string MIMETypeToReturn = string.Empty;
-                fileExtention.TryGetValue(extention, out MIMETypeToReturn);
-                Console.WriteLine(MIMETypeToReturn);
+                string MIMEType = fileExtention[extention];
+                Console.WriteLine(MIMEType);
             }
             else
             {
