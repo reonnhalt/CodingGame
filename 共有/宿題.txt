@@ -1,0 +1,20 @@
+1. 3辺の長さはすべて整数である
+
+2. 各辺の長さは10以下である
+
+3. 周囲の長さは24に等しい
+
+上記のすべての条件を満たす直角三角形を見つけるプログラムを書く
+
+ScalaチームはScalaで書く
+
+その他の言語も以下を意識（不変性、関数連結、etc.）
+
+役職者も考える（お手本を示す）
+
+object Main extends App{
+    
+    val x = for (i <- 1 to 10; j <- 1 to 10; if Math.pow(i, 2) + Math.pow(j, 2) == Math.pow(24-i-j, 2)) yield "%d,%d,%d".format(i, j, 24-i-j)
+    
+    println(x)
+}
